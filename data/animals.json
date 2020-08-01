@@ -108,6 +108,15 @@
         "loving"
       ],
       "id": "10"
+    },
+    {
+      "name": "Tony",
+      "species": "Lizard",
+      "diet": "folivore",
+      "personalityTraits": [
+        "zany"
+      ],
+      "id": "11"
     }
   ]
 }

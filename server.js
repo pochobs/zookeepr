@@ -3,13 +3,14 @@ const fs = require('fs');
 const path = require('path');
 // calling json package we download from module 11.1.4
 const { animals } = require('./data/animals.json');
-const port = 3007;
+const port = 3004;
 const PORT = process.env.PORT || port;
 const app = express();
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+app.use(express.static('public'));
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
@@ -56,7 +57,7 @@ function findById(id, animalsArray) {
 
 function createNewAnimal(body, animalsArray) {
   const animal = body;
-  animalsArray.push(animal);
+  animals.push(animal);
   fs.writeFileSync(
     path.join(__dirname, './data/animals.json'),
     JSON.stringify({ animals: animalsArray }, null, 2)
@@ -108,7 +109,15 @@ app.post('/api/animals', (req, res) => {
   }
   res.json(animal);
 });
-
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
